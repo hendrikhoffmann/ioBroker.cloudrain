@@ -1,0 +1,80 @@
+{
+	"common": {
+		"name": "cloudrain",
+		"version": "0.0.1",
+		"news": {
+			"0.0.1": {
+				"en": "initial release",
+				"de": "Erstveröffentlichung",
+				"ru": "Начальная версия",
+				"pt": "lançamento inicial",
+				"nl": "Eerste uitgave",
+				"fr": "Première version",
+				"it": "Versione iniziale",
+				"es": "Versión inicial",
+				"pl": "Pierwsze wydanie",
+				"zh-cn": "首次出版"
+			}
+		},
+		"title": "CloudRain smart garden irrigation",
+		"titleLang": {
+			"en": "CloudRain smart garden irrigation",
+			"de": "CloudRain intelligente Gartenbewässerung",
+			"ru": "Интеллектуальное орошение сада CloudRain",
+			"pt": "Irrigação de jardim inteligente CloudRain",
+			"nl": "CloudRain slimme tuinirrigatie",
+			"fr": "Irrigation de jardin intelligente CloudRain",
+			"it": "Irrigazione intelligente del giardino CloudRain",
+			"es": "Riego inteligente de jardines CloudRain",
+			"pl": "Inteligentne nawadnianie ogrodu CloudRain",
+			"zh-cn": "CloudRain智能花园灌溉"
+		},
+		"desc": {
+			"en": "This Adapter connects iobroker to the Cloudrain Smart Irrigation System",
+			"de": "Dieser Adapter verbindet iobroker mit dem Cloudrain Smart Irrigation System",
+			"ru": "Этот адаптер подключает iobroker к системе интеллектуального орошения Cloudrain.",
+			"pt": "Este adaptador conecta iobroker ao sistema de irrigação inteligente Cloudrain",
+			"nl": "Deze adapter verbindt iobroker met het Cloudrain Smart Irrigation System",
+			"fr": "Cet adaptateur connecte iobroker au système d'irrigation intelligent Cloudrain",
+			"it": "Questo adattatore collega iobroker al sistema di irrigazione intelligente Cloudrain",
+			"es": "Este adaptador conecta iobroker al sistema de riego inteligente Cloudrain",
+			"pl": "Ten adapter łączy iobroker z inteligentnym systemem nawadniania Cloudrain",
+			"zh-cn": "此适配器将 iobroker 连接到 Cloudrain 智能灌溉系统"
+		},
+		"authors": [
+			"hendrikhoffmann <hhoffmann@web.de>"
+		],
+		"keywords": [
+			"cloudrain",
+			"irrigation",
+			"smart",
+			"smartgarden"
+		],
+		"license": "MIT",
+		"platform": "Javascript/Node.js",
+		"main": "main.js",
+		"icon": "cloudrain.png",
+		"enabled": true,
+		"extIcon": "https://raw.githubusercontent.com/hendrikhoffmann/ioBroker.cloudrain/main/admin/cloudrain.png",
+		"readme": "https://github.com/hendrikhoffmann/ioBroker.cloudrain/blob/main/README.md",
+		"loglevel": "info",
+		"mode": "daemon",
+		"type": "garden",
+		"compact": true,
+		"connectionType": "cloud",
+		"dataSource": "poll",
+		"materialize": true,
+		"dependencies": [
+			{
+				"js-controller": ">=2.0.0"
+			}
+		]
+	},
+	"native": {
+		"Username": "",
+		"Password": "",
+		"Data Request Interval [s]": "300"
+	},
+	"objects": [],
+	"instanceObjects": []
+}

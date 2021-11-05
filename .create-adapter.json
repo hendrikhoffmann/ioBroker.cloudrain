@@ -1,0 +1,61 @@
+{
+	"expert": "yes",
+	"cli": false,
+	"adapterName": "cloudrain",
+	"title": "CloudRain smart garden irrigation",
+	"description": "This Adapter connects iobroker to the Cloudrain Smart Irrigation System",
+	"keywords": [
+		"cloudrain",
+		"irrigation",
+		"smart",
+		"smartgarden"
+	],
+	"icon": {
+		"data": "data:image/png;base64,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",
+		"extension": "png"
+	},
+	"features": [
+		"adapter"
+	],
+	"adminFeatures": [],
+	"type": "garden",
+	"startMode": "daemon",
+	"connectionType": "cloud",
+	"dataSource": "poll",
+	"connectionIndicator": "no",
+	"adapterSettings": [
+		{
+			"key": "Username",
+			"inputType": "text",
+			"defaultValue": ""
+		},
+		{
+			"key": "Password",
+			"inputType": "text",
+			"defaultValue": ""
+		},
+		{
+			"key": "Data Request Interval [s]",
+			"inputType": "number",
+			"defaultValue": "300"
+		}
+	],
+	"language": "JavaScript",
+	"adminReact": "yes",
+	"releaseScript": "yes",
+	"indentation": "Tab",
+	"quotes": "double",
+	"es6class": "yes",
+	"tools": [
+		"ESLint",
+		"type checking"
+	],
+	"authorName": "hendrikhoffmann",
+	"authorGithub": "hendrikhoffmann",
+	"authorEmail": "hhoffmann@web.de",
+	"gitRemoteProtocol": "HTTPS",
+	"license": "MIT License",
+	"dependabot": "yes",
+	"target": "github",
+	"creatorVersion": "2.0.1"
+}
