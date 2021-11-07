@@ -13,7 +13,7 @@
 
 ## cloudrain adapter for ioBroker
 
-NOTE: This is Work in Progress and nothing works so far :)
+This is Work in Progress...
 
 This Adapter connects iobroker to the Cloudrain Smart Irrigation System
 See https://cloudrain.com/.
@@ -89,10 +89,10 @@ dev-server watch
 Please refer to the [`dev-server` documentation](https://github.com/ioBroker/dev-server#readme) for more details.
 
 ## Changelog
-<!--
+
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
--->
+
 
 ### 0.0.2 (2021-11-07)
 * (hendrikhoffmann) initial release
