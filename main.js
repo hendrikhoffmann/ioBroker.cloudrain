@@ -12,6 +12,7 @@ const util = require('util');
 const request = require("request");
 const { resolve } = require("path");
 const { rejects } = require("assert");
+const { default: SelectInput } = require("@material-ui/core/Select/SelectInput");
 // Load your modules here, e.g.:
 // const fs = require("fs");
 
@@ -19,6 +20,8 @@ class Cloudrain extends utils.Adapter {
 
     static cloudRainClientId = "939c77e3-3f10-11ec-9174-03e164aff1e5";
     static cloudRainClientSecret = "939c8343-3f10-11ec-b4ad-03e164aff1e5";
+    cloudRainZones = {};
+    mainLoopIntervalID = 0;
     cloudRainAccessToken = '';
     cloudRainRefreshToken = '';
     cloudRainTokenExpireIn = 0;
@@ -43,43 +46,43 @@ class Cloudrain extends utils.Adapter {
 	 * Is called when databases are connected and adapter received configuration.
 	 */
 	async onReady() {
-		// Initialize your adapter here
+		// Initialize adapter
 
-		// The adapters config (in the instance object everything under the attribute "native") is accessible via
-		// this.config:
 		this.log.info("config Username: " + this.config.Username);
-		this.log.info("config Password: " + this.config.Password);
-		this.log.info("config PasswordRepeat: " + this.config.PasswordRepeat);
+		// this.log.info("config Password: " + this.config.Password);
+		// this.log.info("config PasswordRepeat: " + this.config.PasswordRepeat);
 		this.log.info("config Data Request Interval [s]: " + this.config.RequestInterval);
 
 		await this.getCloudRainToken();
-
         this.debugLogConnectionState();
 
         if (this.cloudRainTokenValid) {
+            await this.createOrUpdateCloudRainControllers();
 		    await this.createOrUpdateCloudRainZones();
+            this.updateIrrigationStatusLoop();
+            this.log.debug("Init done");
         }
         
-		this.log.debug("Init done");
+
 		/*
 		For every state in the system there has to be also an object of type state
 		Here a simple template for a boolean variable named "testVariable"
 		Because every adapter instance uses its own unique namespace variable names can't collide with other adapters variables
 		*/
-		await this.setObjectNotExistsAsync("testVariable", {
-			type: "state",
-			common: {
-				name: "testVariable",
-				type: "boolean",
-				role: "indicator",
-				read: true,
-				write: true,
-			},
-			native: {},
-		});
+		// await this.setObjectNotExistsAsync("testVariable", {
+		// 	type: "state",
+		// 	common: {
+		// 		name: "testVariable",
+		// 		type: "boolean",
+		// 		role: "indicator",
+		// 		read: true,
+		// 		write: true,
+		// 	},
+		// 	native: {},
+		// });
 
 		// In order to get state updates, you need to subscribe to them. The following line adds a subscription for our variable we have created above.
-		this.subscribeStates("testVariable");
+//		this.subscribeStates("testVariable");
 		// You can also add a subscription for multiple states. The following line watches all states starting with "lights."
 		// this.subscribeStates("lights.*");
 		// Or, if you really must, you can also watch all states. Don't do this if you don't need to. Otherwise this will cause a lot of unnecessary load on the system:
@@ -90,14 +93,14 @@ class Cloudrain extends utils.Adapter {
 			you will notice that each setState will cause the stateChange event to fire (because of above subscribeStates cmd)
 		*/
 		// the variable testVariable is set to true as command (ack=false)
-		await this.setStateAsync("testVariable", true);
+		// await this.setStateAsync("testVariable", true);
 
 		// same thing, but the value is flagged "ack"
 		// ack should be always set to true if the value is received from or acknowledged from the target system
-		await this.setStateAsync("testVariable", { val: true, ack: true });
+		// await this.setStateAsync("testVariable", { val: true, ack: true });
 
 		// same thing, but the state is deleted after 30s (getState will return null afterwards)
-		await this.setStateAsync("testVariable", { val: true, ack: true, expire: 30 });
+		// await this.setStateAsync("testVariable", { val: true, ack: true, expire: 30 });
 
 		// examples for the checkPassword/checkGroup functions
 		let result = await this.checkPasswordAsync("admin", "iobroker");
@@ -107,9 +110,9 @@ class Cloudrain extends utils.Adapter {
 		this.log.info("check group user admin group admin: " + result);
 	}
 
-	newMethod() {
-		return this;
-	}
+	// newMethod() {
+	// 	return this;
+	// }
 
 	/**
 	 * Is called when adapter shuts down - callback has to be called under any circumstances!
@@ -121,7 +124,10 @@ class Cloudrain extends utils.Adapter {
 			// clearTimeout(timeout1);
 			// clearTimeout(timeout2);
 			// ...
-			// clearInterval(interval1);
+			if (this.mainLoopIntervalID != 0) {
+                this.log.debug("clearing Interval " + this.mainLoopIntervalID);
+                clearInterval( this.mainLoopIntervalID);
+            }
 
 			callback();
 		} catch (e) {
@@ -227,10 +233,202 @@ class Cloudrain extends utils.Adapter {
                 this.log.error("Get Cloudrain Token request failed badly.");
         }
 	}
+    async createOrUpdateCloudRainControllers(){
+
+        await this.getCloudRainToken();
+        if (this.cloudRainTokenValid != true)  return false;
+
+		const options = {
+            "method": "GET",
+            "url": "https://api.cloudrain.com/v1/controllers",
+            "headers": {
+              "Authorization": "Bearer "+ this.cloudRainAccessToken
+            }
+          };
+        const requestPromise = util.promisify(request);
+        try {
+            const response = await requestPromise(options);
+            if (response.statusCode == 200){
+			    const resp = JSON.parse(response.body);
+                const userControllers = resp.userControllers;
+                userControllers.forEach((controller) => {
+                    this.log.debug(`Controller found: controllerId: ${controller.controllerId} controllerName: ${controller.controllerName}`);
+                    this.setObjectNotExistsAsync(controller.controllerId, {
+                        type: "device",
+                        common: {
+                            name: controller.controllerName                            
+                        },
+                        native: {},
+                    });
+                });
+            } else {
+                this.log.warn(`Get Cloudrain Controllers failed. StatusCode: ${response.statusCode} Body: ${response.body}`);
+            }
+        }        
+        catch (error) {
+                this.cloudRainTokenValid = false;
+                this.log.error("Get Cloudrain Controllers request failed badly.");
+        }
+	}
+
 
     async createOrUpdateCloudRainZones(){
-        this.log.debug("ToDo: Fetch and Update Cloud Rain Zones");
+
+        await this.getCloudRainToken();
+        if (this.cloudRainTokenValid != true)  return false;
+
+		const options = {
+            "method": "GET",
+            "url": "https://api.cloudrain.com/v1/zones",
+            "headers": {
+              "Authorization": "Bearer "+ this.cloudRainAccessToken
+            }
+          };
+        const requestPromise = util.promisify(request);
+        try {
+            const response = await requestPromise(options);
+            if (response.statusCode == 200){
+			    const resp = JSON.parse(response.body);
+                this.cloudRainZones = resp.userZones;
+                this.cloudRainZones.forEach((zone) => {
+                    this.log.debug(`Zone found: zone: ${zone.zoneId} zoneName: ${zone.zoneName} controllerId: ${zone.controllerId} controllerName: ${zone.controllerName} `);
+                    this.setObjectNotExistsAsync(zone.controllerId + "." + zone.zoneId, {
+                        type: "channel",
+                        common: {
+                            name: zone.zoneName                            
+                        },
+                        native: {},
+                    }).then(() => {
+                        this.setObjectNotExistsAsync(zone.controllerId + "." + zone.zoneId + ".irrigating" , {
+                            type: "state",
+                            common: {
+                                name: "irrigating",
+                                type: "boolean",
+                                role: "indicator.state",
+                                read: true,
+                                write: true,
+                            },
+                            native: {},
+                        });
+                        this.setObjectNotExistsAsync(zone.controllerId + "." + zone.zoneId + ".startTime" , {
+                            type: "state",
+                            common: {
+                                name: "startTime",
+                                type: "string",
+                                role: "level",
+                                read: true,
+                                write: false,
+                            },
+                            native: {},
+                        });
+                        this.setObjectNotExistsAsync(zone.controllerId + "." + zone.zoneId + ".plannedEndTime" , {
+                            type: "state",
+                            common: {
+                                name: "plannedEndTime",
+                                type: "string",
+                                role: "level",
+                                read: true,
+                                write: true,
+                            },
+                            native: {},
+                        });
+                        this.setObjectNotExistsAsync(zone.controllerId + "." + zone.zoneId + ".duration" , {
+                            type: "state",
+                            common: {
+                                name: "duration",
+                                type: "number",
+                                unit: "seconds",
+                                role: "value",
+                                read: true,
+                                write: true,
+                            },
+                            native: {},
+                        });
+                        this.setObjectNotExistsAsync(zone.controllerId + "." + zone.zoneId + ".remainingSeconds" , {
+                            type: "state",
+                            common: {
+                                name: "remainingSeconds",
+                                type: "number",
+                                unit: "seconds",
+                                role: "value",
+                                read: true,
+                                write: true,
+                            },
+                            native: {},
+                        });
+    
+                    });
+
+                });
+            } else {
+                this.log.warn(`Get Cloudrain Zones failed. StatusCode: ${response.statusCode} Body: ${response.body}`);
+            }
+        }        
+        catch (error) {
+                this.cloudRainTokenValid = false;
+                this.log.error("Get Cloudrain Zones request failed badly.");
+        }
+	}
+
+    async updateIrrigationStatus() {
+        this.log.debug(` updateIrrigationStatus`);
+        await this.getCloudRainToken();
+        if (this.cloudRainTokenValid != true)  return;
+
+		const options = {
+            "method": "GET",
+            "url": "https://api.cloudrain.com/v1/irrigations",
+            "headers": {
+              "Authorization": "Bearer "+ this.cloudRainAccessToken
+            }
+          };
+        const requestPromise = util.promisify(request);
+        try {
+            const response = await requestPromise(options);
+            if (response.statusCode == 200){
+			    const currentlyRunningZones = JSON.parse(response.body).currentlyRunningZones;
+                // reset all non-running zones
+                this.cloudRainZones.forEach((zone) => {
+                    let found = false;
+                    currentlyRunningZones.forEach((currentZone) => {    
+                        if (currentZone.zoneId == zone.zoneId) found = true;
+                    });
+                    if (!found) {
+                        this.setStateAsync(zone.controllerId + "." + zone.zoneId + ".irrigating",       { val: false, ack: true });
+                        this.setStateAsync(zone.controllerId + "." + zone.zoneId + ".startTime",        { val: "--:--", ack: true });
+                        this.setStateAsync(zone.controllerId + "." + zone.zoneId + ".plannedEndTime",   { val: "--:--", ack: true });
+                        this.setStateAsync(zone.controllerId + "." + zone.zoneId + ".duration",         { val: 0, ack: true });
+                        this.setStateAsync(zone.controllerId + "." + zone.zoneId + ".remainingSeconds", { val: 0, ack: true });
+                        }
+                });
+                currentlyRunningZones.forEach((zone) => {
+                    this.setStateAsync(zone.controllerId + "." + zone.zoneId + ".irrigating",           { val: true, ack: true });
+                    this.setStateAsync(zone.controllerId + "." + zone.zoneId + ".startTime",            { val: zone.startTime, ack: true });
+                    this.setStateAsync(zone.controllerId + "." + zone.zoneId + ".plannedEndTime",       { val: zone.plannedEndTime, ack: true });
+                    this.setStateAsync(zone.controllerId + "." + zone.zoneId + ".duration",             { val: zone.duration, ack: true });
+                    this.setStateAsync(zone.controllerId + "." + zone.zoneId + ".remainingSeconds",     { val: zone.remainingSeconds, ack: true });
+                });
+
+            } else {
+                this.log.warn(`Get Cloudrain irrigations failed. StatusCode: ${response.statusCode} Body: ${response.body}`);
+                this.cloudRainTokenValid = false;
+            }
+        }        
+        catch (error) {
+                this.cloudRainTokenValid = false;
+                this.log.error("Get Cloudrain irrigations request failed badly.");
+        }
+
     }
+
+    async updateIrrigationStatusLoop() {
+
+        this.mainLoopIntervalID = this.setInterval(() => {
+            this.updateIrrigationStatus();
+            }, this.config.RequestInterval*1000);
+            
+    }
+    
 }
 
 if (require.main !== module) {

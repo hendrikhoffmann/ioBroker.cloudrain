@@ -16,6 +16,7 @@
 NOTE: This is Work in Progress and nothing works so far :)
 
 This Adapter connects iobroker to the Cloudrain Smart Irrigation System
+See https://cloudrain.com/.
 
 ## Developer manual
 This section is intended for the developer. It can be deleted later
