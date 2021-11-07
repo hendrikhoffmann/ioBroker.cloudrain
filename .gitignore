@@ -8,6 +8,7 @@ node_modules
 nbproject
 scratchbook
 admin/build/
+main.js.map
 
 # npm package files
 iobroker.*.tgz
