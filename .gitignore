@@ -9,6 +9,7 @@ nbproject
 scratchbook
 admin/build/
 main.js.map
+.commitmessage
 
 # npm package files
 iobroker.*.tgz
