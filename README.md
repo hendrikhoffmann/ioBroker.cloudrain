@@ -91,7 +91,7 @@ Please refer to the [`dev-server` documentation](https://github.com/ioBroker/dev
 ## Changelog
 <!--
 	Placeholder for the next version (at the beginning of the line):
-### **WORK IN PROGRESS**
+### 0.0.4 (2021-11-07)
 still npm release script hazzle
 
 -->

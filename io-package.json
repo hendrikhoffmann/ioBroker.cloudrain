@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "cloudrain",
-        "version": "0.0.3",
+        "version": "0.0.4",
         "news": {
+            "0.0.4": {
+                "en": "still npm release script hazzle\n\n-->",
+                "de": "immer noch npm release script hazzle\n\n-->",
+                "ru": "все еще скрипт выпуска npm\n\n-->",
+                "pt": "ainda npm release script hazzle\n\n-->",
+                "nl": "still npm release script hazzle\n\n-->",
+                "fr": "toujours npm release script hazzle\n\n-->",
+                "it": "ancora npm rilascio script hazzle\n\n-->",
+                "es": "todavía npm release script hazzle\n\n-->",
+                "pl": "nadal blokuje skrypt wydania npm\n\n-->",
+                "zh-cn": "仍然 npm 发布脚本令人眼花缭乱\n\n-->"
+            },
             "0.0.3": {
                 "en": "->",
                 "de": "->",
