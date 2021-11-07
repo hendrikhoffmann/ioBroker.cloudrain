@@ -5,6 +5,7 @@ import theme from "@iobroker/adapter-react/Theme";
 import Utils from "@iobroker/adapter-react/Components/Utils";
 import App from "./app";
 
+
 let themeName = Utils.getThemeName();
 
 function build() {

@@ -73,7 +73,8 @@
 	"native": {
 		"Username": "",
 		"Password": "",
-		"Data Request Interval [s]": "300"
+		"PasswordRepeat": "",
+		"RequestInterval": "300"
 	},
 	"objects": [],
 	"instanceObjects": []

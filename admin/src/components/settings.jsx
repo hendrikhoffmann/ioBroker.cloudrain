@@ -146,8 +146,9 @@ class Settings extends React.Component {
 		return (
 			<form className={this.props.classes.tab}>
 				{this.renderInput("Username", "Username", "text")}<br />
-				{this.renderInput("Password", "Password", "text")}<br />
-				{this.renderInput("Data Request Interval [s]", "Data Request Interval [s]", "number")}
+				{this.renderInput("Password", "Password", "password")}<br />
+				{this.renderInput("Password (repeat)", "PasswordRepeat", "password")}<br />
+				{this.renderInput("Data Request Interval [s]", "RequestInterval", "number")}
 			</form>
 		);
 	}

@@ -1,5 +1,6 @@
 "use strict";
 
+
 /*
  * Created with @iobroker/create-adapter v2.0.1
  */
@@ -7,13 +8,23 @@
 // The adapter-core module gives you access to the core ioBroker functions
 // you need to create an adapter
 const utils = require("@iobroker/adapter-core");
-
+const util = require('util');
+const request = require("request");
+const { resolve } = require("path");
+const { rejects } = require("assert");
 // Load your modules here, e.g.:
 // const fs = require("fs");
 
 class Cloudrain extends utils.Adapter {
 
-	/**
+    static cloudRainClientId = "939c77e3-3f10-11ec-9174-03e164aff1e5";
+    static cloudRainClientSecret = "939c8343-3f10-11ec-b4ad-03e164aff1e5";
+    cloudRainAccessToken = '';
+    cloudRainRefreshToken = '';
+    cloudRainTokenExpireIn = 0;
+    cloudRainTokenValid = false;
+
+    /**
 	 * @param {Partial<utils.AdapterOptions>} [options={}]
 	 */
 	constructor(options) {
@@ -38,8 +49,18 @@ class Cloudrain extends utils.Adapter {
 		// this.config:
 		this.log.info("config Username: " + this.config.Username);
 		this.log.info("config Password: " + this.config.Password);
-		this.log.info("config Data Request Interval [s]: " + this.config.Data Request Interval [s]);
+		this.log.info("config PasswordRepeat: " + this.config.PasswordRepeat);
+		this.log.info("config Data Request Interval [s]: " + this.config.RequestInterval);
 
+		await this.getCloudRainToken();
+
+        this.debugLogConnectionState();
+
+        if (this.cloudRainTokenValid) {
+		    await this.createOrUpdateCloudRainZones();
+        }
+        
+		this.log.debug("Init done");
 		/*
 		For every state in the system there has to be also an object of type state
 		Here a simple template for a boolean variable named "testVariable"
@@ -84,6 +105,10 @@ class Cloudrain extends utils.Adapter {
 
 		result = await this.checkGroupAsync("admin", "admin");
 		this.log.info("check group user admin group admin: " + result);
+	}
+
+	newMethod() {
+		return this;
 	}
 
 	/**
@@ -154,6 +179,58 @@ class Cloudrain extends utils.Adapter {
 	// 	}
 	// }
 
+	debugLogConnectionState(){
+
+        this.log.debug(`cloudRainTokenValid: ${this.cloudRainTokenValid}` );
+        this.log.debug(`cloudRainAccessToken: ${this.cloudRainAccessToken}`);
+        this.log.debug(`cloudRainRefreshToken: ${this.cloudRainRefreshToken}`);
+        this.log.debug(`cloudRainTokenExpireIn: ${this.cloudRainTokenExpireIn}`);
+    }
+
+	async getCloudRainToken(){
+
+        if (this.cloudRainTokenValid == true) return true;
+
+		const options = {
+			"method": "POST",
+			"url": "https://api.cloudrain.com/v1/token",
+			"headers": {
+				"Content-Type": "application/x-www-form-urlencoded"
+			},
+			form: {
+				"grant_type": "password",
+				"client_id": Cloudrain.cloudRainClientId,
+				"client_secret": Cloudrain.cloudRainClientSecret,
+				"username": this.config.Username,
+				"password": this.config.Password,
+				"scope": "read start_irrigation"
+			}
+		};
+        const requestPromise = util.promisify(request);
+        try {
+            const response = await requestPromise(options);
+			const resp = JSON.parse(response.body);
+            if (resp.token_type && resp.token_type == "Bearer" ){
+                this.cloudRainAccessToken   = resp.access_token;
+                this.cloudRainRefreshToken  = resp.refresh_token;
+                this.cloudRainTokenExpireIn = resp.expires_in;
+                if (this.cloudRainAccessToken && this.cloudRainRefreshToken) {
+                    this.cloudRainTokenValid = true;
+                    this.log.debug("Cloudrain Token generation successful. Token valid:" + this.cloudRainTokenValid);
+                }
+            } else {
+                this.log.warn(`Get Cloudrain Token failed. StatusCode: ${response.statusCode} Body: ${response.body}`);
+            }
+        }        
+        catch (error) {
+                this.cloudRainTokenValid = false;
+                this.log.error("Get Cloudrain Token request failed badly.");
+        }
+	}
+
+    async createOrUpdateCloudRainZones(){
+        this.log.debug("ToDo: Fetch and Update Cloud Rain Zones");
+    }
 }
 
 if (require.main !== module) {
