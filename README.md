@@ -44,6 +44,9 @@ Write-Values
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+- Updated Documentation
+
 ### 0.0.7 (2021-11-08)
 - Updated Documentation
 
