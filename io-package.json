@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "cloudrain",
-        "version": "0.0.5",
+        "version": "0.0.6",
         "news": {
+            "0.0.6": {
+                "en": "->\n\nUpdated Documentation",
+                "de": "->\n\nAktualisierte Dokumentation",
+                "ru": "->\n\nОбновленная документация",
+                "pt": "->\n\nDocumentação Atualizada",
+                "nl": "->\n\nBijgewerkte documentatie",
+                "fr": "->\n\nDocumentation mise à jour",
+                "it": "->\n\nDocumentazione aggiornata",
+                "es": "->\n\nDocumentación actualizada",
+                "pl": "->\n\nZaktualizowana dokumentacja",
+                "zh-cn": "->\n\n更新文档"
+            },
             "0.0.5": {
                 "en": "Implemented info.connection to indicate valid Cloudrain access token\nRemoved Boilerplate Code and Refactored some Stuff\nImplemented Start / Stop irrigation \nUpdated Documentation\n->",
                 "de": "Implementierte info.connection, um ein gültiges Cloudrain-Zugriffstoken anzuzeigen\nBoilerplate-Code entfernt und einige Sachen überarbeitet\nImplementierte Start / Stopp-Bewässerung\nAktualisierte Dokumentation\n->",
