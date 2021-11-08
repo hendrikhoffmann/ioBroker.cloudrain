@@ -29,7 +29,7 @@ Set this Data Request Interval according to your irrigation cycles.
 
 ### Object Tree Value Description
 
-For each Zone, the Read-Only Values arr
+For each Zone, the Read-Only Values are
 - irrigating : boolean value indicating wether the irrigation is currently running
 - startTime : the start time (HH:MM) of the current irrigation cycle or --:-- if no irrigation is running
 - plannedEndTime : the planned end time (HH:MM) of the current irrigation cycle or --:-- if no irrigation is running
@@ -42,9 +42,12 @@ Write-Values
 ## Changelog
 <!--
 	Placeholder for the next version (at the beginning of the line):
-### 0.0.6 (2021-11-08)
+	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+- Updated Documentation
 
+### 0.0.6 (2021-11-08)
 - Updated Documentation
 
 ### 0.0.5 (2021-11-08)
