@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "cloudrain",
-        "version": "0.0.6",
+        "version": "0.0.7",
         "news": {
+            "0.0.7": {
+                "en": "Updated Documentation",
+                "de": "Aktualisierte Dokumentation",
+                "ru": "Обновленная документация",
+                "pt": "Documentação Atualizada",
+                "nl": "Bijgewerkte documentatie",
+                "fr": "Documentation mise à jour",
+                "it": "Documentazione aggiornata",
+                "es": "Documentación actualizada",
+                "pl": "Zaktualizowana dokumentacja",
+                "zh-cn": "更新文档"
+            },
             "0.0.6": {
                 "en": "->\n\nUpdated Documentation",
                 "de": "->\n\nAktualisierte Dokumentation",
