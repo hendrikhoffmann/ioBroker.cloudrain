@@ -56,31 +56,16 @@ class Cloudrain extends utils.Adapter {
 		await this.getCloudRainToken();
         this.debugLogConnectionState();
 
-        if (this.cloudRainTokenValid) {
+        if (this.getConnected()) {
             await this.createOrUpdateCloudRainControllers();
 		    await this.createOrUpdateCloudRainZones();
-            this.updateIrrigationStatusLoop();
-            this.log.debug("Init done");
+            this.initIrrigationStatusLoop();
+            this.log.debug("Init successful");
+        } else {
+            this.log.warn("Unable to Connect to Cloudrain API. Make sure Username and Password are correct and https://api.cloudrain.com/v1/ is reachable from your Network.");
+            this.log.warn("No further retries. Restart the adapter manually.");
         }
         
-
-		/*
-		For every state in the system there has to be also an object of type state
-		Here a simple template for a boolean variable named "testVariable"
-		Because every adapter instance uses its own unique namespace variable names can't collide with other adapters variables
-		*/
-		// await this.setObjectNotExistsAsync("testVariable", {
-		// 	type: "state",
-		// 	common: {
-		// 		name: "testVariable",
-		// 		type: "boolean",
-		// 		role: "indicator",
-		// 		read: true,
-		// 		write: true,
-		// 	},
-		// 	native: {},
-		// });
-
 		// In order to get state updates, you need to subscribe to them. The following line adds a subscription for our variable we have created above.
 //		this.subscribeStates("testVariable");
 		// You can also add a subscription for multiple states. The following line watches all states starting with "lights."
@@ -187,7 +172,7 @@ class Cloudrain extends utils.Adapter {
 
 	debugLogConnectionState(){
 
-        this.log.debug(`cloudRainTokenValid: ${this.cloudRainTokenValid}` );
+        this.log.debug(`cloudRainTokenValid: ${this.getConnected()}` );
         this.log.debug(`cloudRainAccessToken: ${this.cloudRainAccessToken}`);
         this.log.debug(`cloudRainRefreshToken: ${this.cloudRainRefreshToken}`);
         this.log.debug(`cloudRainTokenExpireIn: ${this.cloudRainTokenExpireIn}`);
@@ -195,7 +180,7 @@ class Cloudrain extends utils.Adapter {
 
 	async getCloudRainToken(){
 
-        if (this.cloudRainTokenValid == true) return true;
+        if (this.getConnected()) return true;
 
 		const options = {
 			"method": "POST",
@@ -221,22 +206,22 @@ class Cloudrain extends utils.Adapter {
                 this.cloudRainRefreshToken  = resp.refresh_token;
                 this.cloudRainTokenExpireIn = resp.expires_in;
                 if (this.cloudRainAccessToken && this.cloudRainRefreshToken) {
-                    this.cloudRainTokenValid = true;
-                    this.log.debug("Cloudrain Token generation successful. Token valid:" + this.cloudRainTokenValid);
+                    this.setConnected(true);
+                    this.log.debug("Cloudrain Token generation successful.");
                 }
             } else {
                 this.log.warn(`Get Cloudrain Token failed. StatusCode: ${response.statusCode} Body: ${response.body}`);
             }
         }        
         catch (error) {
-                this.cloudRainTokenValid = false;
-                this.log.error("Get Cloudrain Token request failed badly.");
+            this.setConnected(false);
+                this.log.error("Get Cloudrain Token request failed. Check network connection.");
         }
 	}
     async createOrUpdateCloudRainControllers(){
 
         await this.getCloudRainToken();
-        if (this.cloudRainTokenValid != true)  return false;
+        if (!this.getConnected())  return false;
 
 		const options = {
             "method": "GET",
@@ -262,12 +247,13 @@ class Cloudrain extends utils.Adapter {
                     });
                 });
             } else {
+                this.setConnected(false);
                 this.log.warn(`Get Cloudrain Controllers failed. StatusCode: ${response.statusCode} Body: ${response.body}`);
             }
         }        
         catch (error) {
-                this.cloudRainTokenValid = false;
-                this.log.error("Get Cloudrain Controllers request failed badly.");
+                this.setConnected(false);
+                this.log.error("Get Cloudrain Controllers request failed. Check network connection.");
         }
 	}
 
@@ -275,7 +261,7 @@ class Cloudrain extends utils.Adapter {
     async createOrUpdateCloudRainZones(){
 
         await this.getCloudRainToken();
-        if (this.cloudRainTokenValid != true)  return false;
+        if (!this.getConnected())  return false;
 
 		const options = {
             "method": "GET",
@@ -361,19 +347,21 @@ class Cloudrain extends utils.Adapter {
 
                 });
             } else {
+                this.setConnected(false);
                 this.log.warn(`Get Cloudrain Zones failed. StatusCode: ${response.statusCode} Body: ${response.body}`);
+                
             }
         }        
         catch (error) {
-                this.cloudRainTokenValid = false;
-                this.log.error("Get Cloudrain Zones request failed badly.");
+            this.setConnected(false);
+            this.log.error("Get Cloudrain Zones request failed.  Check network connection.");
         }
 	}
 
     async updateIrrigationStatus() {
         this.log.debug(` updateIrrigationStatus`);
         await this.getCloudRainToken();
-        if (this.cloudRainTokenValid != true)  return;
+        if (!this.getConnected())  return;
 
 		const options = {
             "method": "GET",
@@ -401,6 +389,7 @@ class Cloudrain extends utils.Adapter {
                         this.setStateAsync(zone.controllerId + "." + zone.zoneId + ".remainingSeconds", { val: 0, ack: true });
                         }
                 });
+                // update all running zones
                 currentlyRunningZones.forEach((zone) => {
                     this.setStateAsync(zone.controllerId + "." + zone.zoneId + ".irrigating",           { val: true, ack: true });
                     this.setStateAsync(zone.controllerId + "." + zone.zoneId + ".startTime",            { val: zone.startTime, ack: true });
@@ -410,23 +399,32 @@ class Cloudrain extends utils.Adapter {
                 });
 
             } else {
+                this.setConnected(false);
                 this.log.warn(`Get Cloudrain irrigations failed. StatusCode: ${response.statusCode} Body: ${response.body}`);
-                this.cloudRainTokenValid = false;
             }
         }        
         catch (error) {
-                this.cloudRainTokenValid = false;
-                this.log.error("Get Cloudrain irrigations request failed badly.");
+            this.setConnected(false);
+            this.log.error("Get Cloudrain irrigations request failed. Check network connection.");
         }
 
     }
 
-    async updateIrrigationStatusLoop() {
+    async initIrrigationStatusLoop() {
 
         this.mainLoopIntervalID = this.setInterval(() => {
             this.updateIrrigationStatus();
             }, this.config.RequestInterval*1000);
             
+    }
+    getConnected() {
+        return this.cloudRainTokenValid;
+    }
+    setConnected(newCloudRainTokenState) {
+        if (this.cloudRainTokenValid !== newCloudRainTokenState) {
+            this.cloudRainTokenValid = newCloudRainTokenState;
+            this.setStateAsync('info.connection', newCloudRainTokenState, true);
+        }
     }
     
 }

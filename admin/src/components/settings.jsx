@@ -145,10 +145,11 @@ class Settings extends React.Component {
 	render() {
 		return (
 			<form className={this.props.classes.tab}>
-				{this.renderInput("Username", "Username", "text")}<br />
+				<br />
+				Cloudrain Account Information<br />
+				{this.renderInput("Username", "Username", "text")}
 				{this.renderInput("Password", "Password", "password")}<br />
-				{this.renderInput("Password (repeat)", "PasswordRepeat", "password")}<br />
-				{this.renderInput("Data Request Interval [s]", "RequestInterval", "number")}
+				{this.renderInput("Data Request Interval [seconds]", "RequestInterval", "number")}
 			</form>
 		);
 	}
