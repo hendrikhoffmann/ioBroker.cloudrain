@@ -29,26 +29,29 @@ Set this Data Request Interval according to your irrigation cycles.
 
 ### Object Tree Value Description
 
-For each Zone:
-Read-Only Values:
-irrigating - boolean value indicating wether the irrigation is currently running
-startTime - the start time (HH:MM) of the current irrigation cycle or --:-- if no irrigation is running
-plannedEndTime - the planned end time (HH:MM) of the current irrigation cycle or --:-- if no irrigation is running
-duration - the total duration of the current irrigation cycle in seconds
-remainingSeconds - the remaining duration of the current irrigation cycle in seconds
+For each Zone, the Read-Only Values arr
+- irrigating : boolean value indicating wether the irrigation is currently running
+- startTime : the start time (HH:MM) of the current irrigation cycle or --:-- if no irrigation is running
+- plannedEndTime : the planned end time (HH:MM) of the current irrigation cycle or --:-- if no irrigation is running
+- duration : the total duration of the current irrigation cycle in seconds
+- remainingSeconds : the remaining duration of the current irrigation cycle in seconds
 
 Write-Values
-startIrrigation - set a duration value in seconds to immediatly start an irrigation cycle, set a 0 to stop a currently running cycle
+- startIrrigation - set a duration value in seconds to immediatly start an irrigation cycle, set a 0 to stop a currently running cycle
 
 ## Changelog
 <!--
 	Placeholder for the next version (at the beginning of the line):
+### **WORK IN PROGRESS**
+-->
+
+- Updated Documentation
+
 ### 0.0.5 (2021-11-08)
 - Implemented info.connection to indicate valid Cloudrain access token
 - Removed Boilerplate Code and Refactored some Stuff
 - Implemented Start / Stop irrigation 
 - Updated Documentation
--->
 
 ### 0.0.3 (2021-11-07)
 npm release script hazzle
