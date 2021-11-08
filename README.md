@@ -43,7 +43,7 @@ startIrrigation - set a duration value in seconds to immediatly start an irrigat
 ## Changelog
 <!--
 	Placeholder for the next version (at the beginning of the line):
-### 0.0.4 (2021-11-07)
+### **WORK IN PROGRESS**
 - Implemented info.connection to indicate valid Cloudrain access token
 - Removed Boilerplate Code and Refactored some Stuff
 - Implemented Start / Stop irrigation 
