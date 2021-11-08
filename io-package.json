@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "cloudrain",
-        "version": "0.0.4",
+        "version": "0.0.5",
         "news": {
+            "0.0.5": {
+                "en": "Implemented info.connection to indicate valid Cloudrain access token\nRemoved Boilerplate Code and Refactored some Stuff\nImplemented Start / Stop irrigation \nUpdated Documentation\n->",
+                "de": "Implementierte info.connection, um ein gültiges Cloudrain-Zugriffstoken anzuzeigen\nBoilerplate-Code entfernt und einige Sachen überarbeitet\nImplementierte Start / Stopp-Bewässerung\nAktualisierte Dokumentation\n->",
+                "ru": "Реализован info.connection для указания действительного токена доступа Cloudrain.\nУдален Boilerplate Code и произведен рефакторинг\nРеализован запуск / остановка полива.\nОбновленная документация\n->",
+                "pt": "Info.connection implementado para indicar token de acesso válido do Cloudrain\nCódigo de Boilerplate Removido e Refatorado algumas Coisas\nIniciar / parar irrigação implementada\nDocumentação Atualizada\n->",
+                "nl": "Info.connection geïmplementeerd om geldige Cloudrain-toegangstoken aan te geven\nBoilerplate-code verwijderd en wat dingen gerefactored\nGeïmplementeerd Start / Stop irrigatie\nBijgewerkte documentatie\n->",
+                "fr": "Info.connection implémentée pour indiquer un jeton d'accès Cloudrain valide\nSuppression du code passe-partout et refonte de certaines choses\nMise en œuvre Démarrer / Arrêter l'irrigation\nDocumentation mise à jour\n->",
+                "it": "Implementato info.connection per indicare un token di accesso Cloudrain valido\nRimosso il codice boilerplate e rifattorizzato alcune cose\nImplementato Start/Stop irrigazione\nDocumentazione aggiornata\n->",
+                "es": "Info.connection implementada para indicar un token de acceso de Cloudrain válido\nSe eliminó el código repetitivo y se refactorizaron algunas cosas\nRiego Start / Stop implementado\nDocumentación actualizada\n->",
+                "pl": "Zaimplementowano info.connection wskazujący poprawny token dostępu do Cloudrain\nUsunięto Boilerplate Code i zrefaktorowano niektóre rzeczy\nWdrożone nawadnianie Start / Stop\nZaktualizowana dokumentacja\n->",
+                "zh-cn": "实施 info.connection 以指示有效的 Cloudrain 访问令牌\n删除了样板代码并重构了一些东西\n实施启动/停止灌溉\n更新文档\n->"
+            },
             "0.0.4": {
                 "en": "still npm release script hazzle\n\n-->",
                 "de": "immer noch npm release script hazzle\n\n-->",
@@ -112,27 +124,27 @@
         "RequestInterval": "60"
     },
     "objects": [],
-	"instanceObjects": [
-		{
-		  "_id": "info",
-		  "type": "channel",
-		  "common": {
-			"name": "Information"
-		  },
-		  "native": {}
-		},
-		{
-		  "_id": "info.connection",
-		  "type": "state",
-		  "common": {
-			"role": "indicator.connected",
-			"name": "If connected to device or service",
-			"type": "boolean",
-			"read": true,
-			"write": false,
-			"def": false
-		  },
-		  "native": {}
-		}
-	  ]
+    "instanceObjects": [
+        {
+            "_id": "info",
+            "type": "channel",
+            "common": {
+                "name": "Information"
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.connection",
+            "type": "state",
+            "common": {
+                "role": "indicator.connected",
+                "name": "If connected to device or service",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "def": false
+            },
+            "native": {}
+        }
+    ]
 }
