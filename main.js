@@ -72,21 +72,6 @@ class Cloudrain extends utils.Adapter {
 		// this.subscribeStates("lights.*");
 		// Or, if you really must, you can also watch all states. Don't do this if you don't need to. Otherwise this will cause a lot of unnecessary load on the system:
 		// this.subscribeStates("*");
-
-		/*
-			setState examples
-			you will notice that each setState will cause the stateChange event to fire (because of above subscribeStates cmd)
-		*/
-		// the variable testVariable is set to true as command (ack=false)
-		// await this.setStateAsync("testVariable", true);
-
-		// same thing, but the value is flagged "ack"
-		// ack should be always set to true if the value is received from or acknowledged from the target system
-		// await this.setStateAsync("testVariable", { val: true, ack: true });
-
-		// same thing, but the state is deleted after 30s (getState will return null afterwards)
-		// await this.setStateAsync("testVariable", { val: true, ack: true, expire: 30 });
-
 		// examples for the checkPassword/checkGroup functions
 		let result = await this.checkPasswordAsync("admin", "iobroker");
 		this.log.info("check user admin pw iobroker: " + result);
@@ -113,6 +98,7 @@ class Cloudrain extends utils.Adapter {
                 this.log.debug("clearing Interval " + this.mainLoopIntervalID);
                 clearInterval( this.mainLoopIntervalID);
             }
+            this.setConnected(false);
 
 			callback();
 		} catch (e) {
@@ -292,7 +278,7 @@ class Cloudrain extends utils.Adapter {
                                 type: "boolean",
                                 role: "indicator.state",
                                 read: true,
-                                write: true,
+                                write: false,
                             },
                             native: {},
                         });
@@ -314,7 +300,7 @@ class Cloudrain extends utils.Adapter {
                                 type: "string",
                                 role: "level",
                                 read: true,
-                                write: true,
+                                write: false,
                             },
                             native: {},
                         });
@@ -326,7 +312,7 @@ class Cloudrain extends utils.Adapter {
                                 unit: "seconds",
                                 role: "value",
                                 read: true,
-                                write: true,
+                                write: false,
                             },
                             native: {},
                         });
@@ -338,10 +324,23 @@ class Cloudrain extends utils.Adapter {
                                 unit: "seconds",
                                 role: "value",
                                 read: true,
-                                write: true,
+                                write: false,
                             },
                             native: {},
                         });
+                        this.setObjectNotExistsAsync(zone.controllerId + "." + zone.zoneId + ".startIrrigation" , {
+                            type: "state",
+                            common: {
+                                name: "duration",
+                                type: "number",
+                                unit: "seconds",
+                                role: "value",
+                                read: true,
+                                write: true,
+                            },
+                            native: {},
+                        }).then(() => this.subscribeStates(zone.controllerId + "." + zone.zoneId + ".startIrrigation"));
+
     
                     });
 
@@ -412,7 +411,7 @@ class Cloudrain extends utils.Adapter {
 
     async initIrrigationStatusLoop() {
 
-        this.mainLoopIntervalID = this.setInterval(() => {
+        this.mainLoopIntervalID = setInterval(() => {
             this.updateIrrigationStatus();
             }, this.config.RequestInterval*1000);
             
