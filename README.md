@@ -16,14 +16,38 @@
 This Adapter connects iobroker to the Cloudrain Smart Irrigation System
 See https://cloudrain.com/.
 
+The irrigation system consists of at least one controller.
+Each irrigation controller can control different zones (valves).
+Both reading current irrigation status and manual start/stop of irrigation for each zone is possible.
+
+You might start/stop irrigations through the App and monitor the changes.
+
+### Configuration
+- Insert your Cloudrain Username + Password in the Instance Configuration
+- The Cloudrain API is polled at regular intervals for updates. 
+Set this Data Request Interval according to your irrigation cycles.
+
+### Object Tree Value Description
+
+For each Zone:
+Read-Only Values:
+irrigating - boolean value indicating wether the irrigation is currently running
+startTime - the start time (HH:MM) of the current irrigation cycle or --:-- if no irrigation is running
+plannedEndTime - the planned end time (HH:MM) of the current irrigation cycle or --:-- if no irrigation is running
+duration - the total duration of the current irrigation cycle in seconds
+remainingSeconds - the remaining duration of the current irrigation cycle in seconds
+
+Write-Values
+startIrrigation - set a duration value in seconds to immediatly start an irrigation cycle, set a 0 to stop a currently running cycle
 
 ## Changelog
 <!--
 	Placeholder for the next version (at the beginning of the line):
 ### 0.0.4 (2021-11-07)
 - Implemented info.connection to indicate valid Cloudrain access token
-- Removed Boilerplate Code and Stuff
-
+- Removed Boilerplate Code and Refactored some Stuff
+- Implemented Start / Stop irrigation 
+- Updated Documentation
 -->
 
 ### 0.0.3 (2021-11-07)

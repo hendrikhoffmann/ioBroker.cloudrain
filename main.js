@@ -3,6 +3,7 @@
 
 /*
  * Created with @iobroker/create-adapter v2.0.1
+    Adapter for the Cloudrain Smart Irrigation System See https://cloudrain.com/.
  */
 
 // The adapter-core module gives you access to the core ioBroker functions
@@ -13,15 +14,14 @@ const request = require("request");
 const { resolve } = require("path");
 const { rejects } = require("assert");
 const { default: SelectInput } = require("@material-ui/core/Select/SelectInput");
-// Load your modules here, e.g.:
-// const fs = require("fs");
+const shortestAllowedPollInterval = 60;
 
 class Cloudrain extends utils.Adapter {
 
     static cloudRainClientId = "939c77e3-3f10-11ec-9174-03e164aff1e5";
     static cloudRainClientSecret = "939c8343-3f10-11ec-b4ad-03e164aff1e5";
     cloudRainZones = {};
-    mainLoopIntervalID = 0;
+    mainLoopIntervalID;
     cloudRainAccessToken = '';
     cloudRainRefreshToken = '';
     cloudRainTokenExpireIn = 0;
@@ -47,11 +47,9 @@ class Cloudrain extends utils.Adapter {
 	 */
 	async onReady() {
 		// Initialize adapter
-
-		this.log.info("config Username: " + this.config.Username);
+		//this.log.info("config Username: " + this.config.Username);
 		// this.log.info("config Password: " + this.config.Password);
-		// this.log.info("config PasswordRepeat: " + this.config.PasswordRepeat);
-		this.log.info("config Data Request Interval [s]: " + this.config.RequestInterval);
+		//this.log.info("config Data Request Interval [s]: " + this.config.RequestInterval);
 
 		await this.getCloudRainToken();
         this.debugLogConnectionState();
@@ -65,35 +63,15 @@ class Cloudrain extends utils.Adapter {
             this.log.warn("Unable to Connect to Cloudrain API. Make sure Username and Password are correct and https://api.cloudrain.com/v1/ is reachable from your Network.");
             this.log.warn("No further retries. Restart the adapter manually.");
         }
-        
-		// In order to get state updates, you need to subscribe to them. The following line adds a subscription for our variable we have created above.
-//		this.subscribeStates("testVariable");
-		// You can also add a subscription for multiple states. The following line watches all states starting with "lights."
-		// this.subscribeStates("lights.*");
-		// Or, if you really must, you can also watch all states. Don't do this if you don't need to. Otherwise this will cause a lot of unnecessary load on the system:
-		// this.subscribeStates("*");
-		// examples for the checkPassword/checkGroup functions
-		let result = await this.checkPasswordAsync("admin", "iobroker");
-		this.log.info("check user admin pw iobroker: " + result);
-
-		result = await this.checkGroupAsync("admin", "admin");
-		this.log.info("check group user admin group admin: " + result);
 	}
-
-	// newMethod() {
-	// 	return this;
-	// }
 
 	/**
 	 * Is called when adapter shuts down - callback has to be called under any circumstances!
 	 * @param {() => void} callback
 	 */
 	onUnload(callback) {
+
 		try {
-			// Here you must clear all timeouts or intervals that may still be active
-			// clearTimeout(timeout1);
-			// clearTimeout(timeout2);
-			// ...
 			if (this.mainLoopIntervalID != 0) {
                 this.log.debug("clearing Interval " + this.mainLoopIntervalID);
                 clearInterval( this.mainLoopIntervalID);
@@ -106,55 +84,30 @@ class Cloudrain extends utils.Adapter {
 		}
 	}
 
-	// If you need to react to object changes, uncomment the following block and the corresponding line in the constructor.
-	// You also need to subscribe to the objects with `this.subscribeObjects`, similar to `this.subscribeStates`.
-	// /**
-	//  * Is called if a subscribed object changes
-	//  * @param {string} id
-	//  * @param {ioBroker.Object | null | undefined} obj
-	//  */
-	// onObjectChange(id, obj) {
-	// 	if (obj) {
-	// 		// The object was changed
-	// 		this.log.info(`object ${id} changed: ${JSON.stringify(obj)}`);
-	// 	} else {
-	// 		// The object was deleted
-	// 		this.log.info(`object ${id} deleted`);
-	// 	}
-	// }
-
-	/**
+    /**
 	 * Is called if a subscribed state changes
 	 * @param {string} id
 	 * @param {ioBroker.State | null | undefined} state
 	 */
 	onStateChange(id, state) {
+
 		if (state) {
 			// The state was changed
 			this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
+            const splitId = id.split('.');
+            const value = splitId.pop();
+            if (value == "startIrrigation") {
+                const zoneId = splitId.pop();
+                if (zoneId && zoneId.length > 0) {
+                    this.updateZoneIrrigation(zoneId,state.val);
+                }
+            }
+
 		} else {
 			// The state was deleted
 			this.log.info(`state ${id} deleted`);
 		}
 	}
-
-	// If you need to accept messages in your adapter, uncomment the following block and the corresponding line in the constructor.
-	// /**
-	//  * Some message was sent to this instance over message box. Used by email, pushover, text2speech, ...
-	//  * Using this method requires "common.messagebox" property to be set to true in io-package.json
-	//  * @param {ioBroker.Message} obj
-	//  */
-	// onMessage(obj) {
-	// 	if (typeof obj === "object" && obj.message) {
-	// 		if (obj.command === "send") {
-	// 			// e.g. send email or pushover or whatever
-	// 			this.log.info("send command");
-
-	// 			// Send response in callback if required
-	// 			if (obj.callback) this.sendTo(obj.from, obj.command, "Message received", obj.callback);
-	// 		}
-	// 	}
-	// }
 
 	debugLogConnectionState(){
 
@@ -340,15 +293,11 @@ class Cloudrain extends utils.Adapter {
                             },
                             native: {},
                         }).then(() => this.subscribeStates(zone.controllerId + "." + zone.zoneId + ".startIrrigation"));
-
-    
                     });
-
                 });
             } else {
                 this.setConnected(false);
                 this.log.warn(`Get Cloudrain Zones failed. StatusCode: ${response.statusCode} Body: ${response.body}`);
-                
             }
         }        
         catch (error) {
@@ -358,6 +307,7 @@ class Cloudrain extends utils.Adapter {
 	}
 
     async updateIrrigationStatus() {
+
         this.log.debug(` updateIrrigationStatus`);
         await this.getCloudRainToken();
         if (!this.getConnected())  return;
@@ -408,25 +358,72 @@ class Cloudrain extends utils.Adapter {
         }
 
     }
+    /**
+	 * Is called if a irrigation cycle shall be started or stopped after change of the "startIrrigation" value
+     * 	   @param {string} zoneId
+	 *     @param {number} duration
+	 */
+    async updateZoneIrrigation(zoneId,duration) {
 
-    async initIrrigationStatusLoop() {
+        await this.getCloudRainToken();
+        if (!this.getConnected())  return;
 
-        this.mainLoopIntervalID = setInterval(() => {
-            this.updateIrrigationStatus();
-            }, this.config.RequestInterval*1000);
-            
+        let method = "PUT";
+        if (duration == 0) method = "DELETE"; // a duration of 0 will stop a possibly running irrigation
+
+		const options = {
+            'method': method,
+            'url': `https://api.cloudrain.com/v1/zones/${zoneId}/irrigation?duration=${duration}`,
+            "headers": {
+              "Authorization": "Bearer "+ this.cloudRainAccessToken
+            }
+          };
+
+        const requestPromise = util.promisify(request);
+        try {
+            const response = await requestPromise(options);
+            if (response.statusCode == 200){
+                this.log.info(`Irrigation updated. ${zoneId} Duration: ${duration} `);
+
+            } else {
+                this.setConnected(false);
+                this.log.warn(`Irrigation update failed. StatusCode: ${response.statusCode} Body: ${response.body}`);
+            }
+        }        
+        catch (error) {
+            this.setConnected(false);
+            this.log.error("Irrigation update request failed. Check network connection.");
+        }
     }
-    getConnected() {
-        return this.cloudRainTokenValid;
-    }
+
+    /**
+	 * Is called to Update the "Connected to Clourain API wiht valid Token" status
+     * 	   @param {boolean} newCloudRainTokenState
+	 */
     setConnected(newCloudRainTokenState) {
+
         if (this.cloudRainTokenValid !== newCloudRainTokenState) {
             this.cloudRainTokenValid = newCloudRainTokenState;
             this.setStateAsync('info.connection', newCloudRainTokenState, true);
         }
     }
-    
+ 
+    getConnected() {
+
+        return this.cloudRainTokenValid;
+    }
+
+    /**
+	 * The main Application loop
+     * 	   
+	 */
+     async initIrrigationStatusLoop() {
+        this.mainLoopIntervalID = setInterval(() => {
+            this.updateIrrigationStatus();
+            }, Math.max (shortestAllowedPollInterval,this.config.RequestInterval)*1000);
+    }
 }
+
 
 if (require.main !== module) {
 	// Export the constructor in compact mode
