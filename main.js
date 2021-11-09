@@ -112,8 +112,8 @@ class Cloudrain extends utils.Adapter {
 	debugLogConnectionState(){
 
         this.log.debug(`cloudRainTokenValid: ${this.getConnected()}` );
-        this.log.debug(`cloudRainAccessToken: ${this.cloudRainAccessToken}`);
-        this.log.debug(`cloudRainRefreshToken: ${this.cloudRainRefreshToken}`);
+        //this.log.debug(`cloudRainAccessToken: ${this.cloudRainAccessToken}`);
+        //this.log.debug(`cloudRainRefreshToken: ${this.cloudRainRefreshToken}`);
         this.log.debug(`cloudRainTokenExpireIn: ${this.cloudRainTokenExpireIn}`);
     }
 
@@ -419,9 +419,10 @@ class Cloudrain extends utils.Adapter {
      * 	   
 	 */
      async initIrrigationStatusLoop() {
+         let intervalMs = Math.max (shortestAllowedPollInterval,this.config.RequestInterval)*1000;
         this.mainLoopIntervalID = setInterval(() => {
             this.updateIrrigationStatus();
-            }, Math.max (shortestAllowedPollInterval,this.config.RequestInterval)*1000);
+            }, intervalMs);
     }
 }
 

@@ -47,7 +47,7 @@ iobroker start cloudrain
 ### Configuration
 - Insert your Cloudrain Username + Password in the Instance Configuration
 - The Cloudrain API is polled at regular intervals for updates. 
-Set this Data Request Interval according to your irrigation cycles.
+- Set this Data Request Interval according to your irrigation cycles (60 sec is minimum).
 
 ### Object Tree Value Description
 
@@ -70,6 +70,7 @@ Write-Values
 - irrigation status is updated instantly after execution of an irrigation command
 - Debug and Info Log Messages clarified
 - Installation instructions added to README
+
 ### 0.0.8 (2021-11-08)
 - Updated Documentation
 
