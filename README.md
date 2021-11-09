@@ -21,6 +21,28 @@ Each irrigation controller can control different zones (valves).
 Both reading current irrigation status and manual start/stop of irrigation for each zone is possible.
 
 You might start/stop irrigations through the App and monitor the changes.
+### Installation
+
+This adapter is currently under development, but should work as intended.
+
+Please test it and give feedback:
+https://github.com/ioBroker/AdapterRequests/issues/370
+
+To Install:
+~~~
+cd /opt/iobroker
+npm install iobroker.cloudrain
+iobroker add cloudrain
+~~~
+
+To Update:
+~~~
+cd /opt/iobroker
+iobroker stop cloudrain
+npm install iobroker.cloudrain
+iobroker update cloudrain
+iobroker start cloudrain
+~~~
 
 ### Configuration
 - Insert your Cloudrain Username + Password in the Instance Configuration
@@ -44,13 +66,11 @@ Write-Values
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+- irrigation status is updated instantly after execution of an irrigation command
+- Debug and Info Log Messages clarified
+- Installation instructions added to README
 ### 0.0.8 (2021-11-08)
-- Updated Documentation
-
-### 0.0.7 (2021-11-08)
-- Updated Documentation
-
-### 0.0.6 (2021-11-08)
 - Updated Documentation
 
 ### 0.0.5 (2021-11-08)

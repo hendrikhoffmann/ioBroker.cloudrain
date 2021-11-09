@@ -73,7 +73,6 @@ class Cloudrain extends utils.Adapter {
 
 		try {
 			if (this.mainLoopIntervalID != 0) {
-                this.log.debug("clearing Interval " + this.mainLoopIntervalID);
                 clearInterval( this.mainLoopIntervalID);
             }
             this.setConnected(false);
@@ -93,7 +92,6 @@ class Cloudrain extends utils.Adapter {
 
 		if (state) {
 			// The state was changed
-			this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
             const splitId = id.split('.');
             const value = splitId.pop();
             if (value == "startIrrigation") {
@@ -101,6 +99,8 @@ class Cloudrain extends utils.Adapter {
                 if (zoneId && zoneId.length > 0) {
                     this.updateZoneIrrigation(zoneId,state.val);
                 }
+            } else {
+                this.log.debug(`unhandled state change. State: ${id} changed: ${state.val} (ack = ${state.ack})`);
             }
 
 		} else {
@@ -383,7 +383,7 @@ class Cloudrain extends utils.Adapter {
         try {
             const response = await requestPromise(options);
             if (response.statusCode == 200){
-                this.log.info(`Irrigation updated. ${zoneId} Duration: ${duration} `);
+                this.log.info(`Irrigation Command send. Zone: ${zoneId} New Duration: ${duration} `);
 
             } else {
                 this.setConnected(false);
@@ -394,6 +394,7 @@ class Cloudrain extends utils.Adapter {
             this.setConnected(false);
             this.log.error("Irrigation update request failed. Check network connection.");
         }
+        this.updateIrrigationStatus(); 
     }
 
     /**
