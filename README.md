@@ -31,10 +31,11 @@ https://github.com/ioBroker/AdapterRequests/issues/370
 #### Recommended Installation method (GUI)
 
 - In Adapter panel activate expert mode
-- Click the "Instal from own URL" Icon
+- Click the "Install from own URL" Icon
 - Select "User Defined"
 - insert URL https://github.com/hendrikhoffmann/ioBroker.cloudrain
 - Click Install
+- Add a new instance of the cloudrain adapter
 
 #### Alternate Installation method (Shell)
 ~~~
@@ -73,8 +74,10 @@ Write-Values
 ## Changelog
 <!--
 	Placeholder for the next version (at the beginning of the line):
+	### **WORK IN PROGRESS**
 -->
 ### **WORK IN PROGRESS**
+- Updated installation instructions
 
 ### 0.1.1 (2021-11-09)
 - irrigation status is updated instantly after execution of an irrigation command
