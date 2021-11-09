@@ -28,7 +28,15 @@ This adapter is currently under development, but should work as intended.
 Please test it and give feedback:
 https://github.com/ioBroker/AdapterRequests/issues/370
 
-To Install:
+#### Recommended Installation method (GUI)
+
+- In Adapter panel activate expert mode
+- Click the "Instal from own URL" Icon
+- Select "User Defined"
+- insert URL https://github.com/hendrikhoffmann/ioBroker.cloudrain
+- Click Install
+
+#### Alternate Installation method (Shell)
 ~~~
 cd /opt/iobroker
 npm install iobroker.cloudrain
@@ -43,6 +51,7 @@ npm install iobroker.cloudrain
 iobroker update cloudrain
 iobroker start cloudrain
 ~~~
+
 
 ### Configuration
 - Insert your Cloudrain Username + Password in the Instance Configuration
@@ -64,8 +73,9 @@ Write-Values
 ## Changelog
 <!--
 	Placeholder for the next version (at the beginning of the line):
-	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+
 ### 0.1.1 (2021-11-09)
 - irrigation status is updated instantly after execution of an irrigation command
 - Debug and Info Log Messages clarified
