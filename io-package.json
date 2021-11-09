@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "cloudrain",
-        "version": "0.1.1",
+        "version": "0.1.2",
         "news": {
+            "0.1.2": {
+                "en": "Updated installation instructions",
+                "de": "Aktualisierte Installationsanweisungen",
+                "ru": "Обновленная инструкция по установке",
+                "pt": "Instruções de instalação atualizadas",
+                "nl": "Bijgewerkte installatie-instructies",
+                "fr": "Instructions d'installation mises à jour",
+                "it": "Istruzioni di installazione aggiornate",
+                "es": "Instrucciones de instalación actualizadas",
+                "pl": "Zaktualizowana instrukcja instalacji",
+                "zh-cn": "更新安装说明"
+            },
             "0.1.1": {
                 "en": "irrigation status is updated instantly after execution of an irrigation command\nDebug and Info Log Messages clarified\nInstallation instructions added to README",
                 "de": "Beregnungsstatus wird sofort nach Ausführung eines Beregnungsbefehls aktualisiert\nDebug- und Info-Log-Meldungen geklärt\nInstallationsanweisungen zu README hinzugefügt",

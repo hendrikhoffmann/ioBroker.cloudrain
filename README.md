@@ -76,7 +76,7 @@ Write-Values
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 0.1.2 (2021-11-09)
 - Updated installation instructions
 
 ### 0.1.1 (2021-11-09)
