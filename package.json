@@ -1,6 +1,6 @@
 {
   "name": "iobroker.cloudrain",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "This Adapter connects iobroker to the Cloudrain Smart Irrigation System",
   "author": {
     "name": "hendrikhoffmann",

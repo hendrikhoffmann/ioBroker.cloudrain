@@ -66,7 +66,7 @@ Write-Values
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 0.1.1 (2021-11-09)
 - irrigation status is updated instantly after execution of an irrigation command
 - Debug and Info Log Messages clarified
 - Installation instructions added to README

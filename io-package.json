@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "cloudrain",
-        "version": "0.0.8",
+        "version": "0.1.1",
         "news": {
+            "0.1.1": {
+                "en": "irrigation status is updated instantly after execution of an irrigation command\nDebug and Info Log Messages clarified\nInstallation instructions added to README",
+                "de": "Beregnungsstatus wird sofort nach Ausführung eines Beregnungsbefehls aktualisiert\nDebug- und Info-Log-Meldungen geklärt\nInstallationsanweisungen zu README hinzugefügt",
+                "ru": "статус полива обновляется сразу после выполнения команды полива\nУточнены сообщения журнала отладки и информационного журнала\nИнструкции по установке добавлены в README",
+                "pt": "o status da irrigação é atualizado instantaneamente após a execução de um comando de irrigação\nDepuração e mensagens de registro de informações esclarecidas\nInstruções de instalação adicionadas ao README",
+                "nl": "irrigatiestatus wordt direct bijgewerkt na uitvoering van een irrigatieopdracht\nFoutopsporings- en infologberichten opgehelderd\nInstallatie-instructies toegevoegd aan README",
+                "fr": "l'état de l'irrigation est mis à jour instantanément après l'exécution d'une commande d'irrigation\nMessages de débogage et de journal d'informations clarifiés\nInstructions d'installation ajoutées au fichier README",
+                "it": "lo stato dell'irrigazione viene aggiornato immediatamente dopo l'esecuzione di un comando di irrigazione\nMessaggi di log di debug e informazioni chiariti\nIstruzioni di installazione aggiunte a README",
+                "es": "El estado del riego se actualiza instantáneamente después de la ejecución de un comando de riego.\nMensajes de registro de información y depuración aclarados\nInstrucciones de instalación agregadas a README",
+                "pl": "stan nawadniania jest aktualizowany natychmiast po wykonaniu polecenia nawadniania\nWyjaśnienie komunikatów dziennika debugowania i informacji\nInstrukcja instalacji dodana do README",
+                "zh-cn": "灌溉状态在执行灌溉命令后立即更新\n澄清了调试和信息日志消息\n安装说明添加到自述文件"
+            },
             "0.0.8": {
                 "en": "Updated Documentation",
                 "de": "Aktualisierte Dokumentation",
