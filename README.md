@@ -57,7 +57,9 @@ iobroker start cloudrain
 ### Configuration
 - Insert your Cloudrain Username + Password in the Instance Configuration
 - The Cloudrain API is polled at regular intervals for updates. 
-- Set this Data Request Interval according to your irrigation cycles (60 sec is minimum).
+- Set this Data Request Interval during idle (60 sec is a perfect default value)
+- increase the Data Request Interval if total data transfered is an issue (you might miss irrigations configured in the App)
+- Note: If the system is irrigating, data updates are polled at 10 sec intervall.
 
 ### Object Tree Value Description
 
@@ -76,6 +78,11 @@ Write-Values
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
+### **WORK IN PROGRESS**
+- irrigation poll intervall is now 10 sec during irrigation and min. 60 sec otherwise
+- dependency of request and util lib removed, replaced by got
+
 ### 0.1.2 (2021-11-09)
 - Updated installation instructions
 
