@@ -79,7 +79,7 @@ Write-Values
 	### **WORK IN PROGRESS**
 -->
 
-### **WORK IN PROGRESS**
+### 0.1.3 (2021-11-10)
 - irrigation poll intervall is now 10 sec during irrigation and min. 60 sec otherwise
 - dependency of request and util lib removed, replaced by got
 

@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "cloudrain",
-        "version": "0.1.2",
+        "version": "0.1.3",
         "news": {
+            "0.1.3": {
+                "en": "irrigation poll intervall is now 10 sec during irrigation and min. 60 sec otherwise\ndependency of request and util lib removed, replaced by got",
+                "de": "Beregnungsabfrageintervall beträgt jetzt 10 Sek. während der Beregnung und min. 60 Sek sonst\nAbhängigkeit von request und util lib entfernt, durch got . ersetzt",
+                "ru": "Интервал между опросами при поливе теперь составляет 10 секунд во время полива и мин. 60 сек в противном случае\nзависимость запроса и утилит lib удалена, заменена на got",
+                "pt": "o intervalo de pesquisa de irrigação é agora de 10 seg durante a irrigação e min. 60 segundos de outra forma\ndependência de solicitação e biblioteca util removida, substituída por obtida",
+                "nl": "irrigatie poll interval is nu 10 sec tijdens irrigatie en min. 60 seconden anders\nafhankelijkheid van verzoek en util lib verwijderd, vervangen door got",
+                "fr": "l'intervalle de sondage d'irrigation est maintenant de 10 secondes pendant l'irrigation et de min. 60 secondes sinon\ndépendance de request et util lib supprimée, remplacée par got",
+                "it": "l'intervallo di polling di irrigazione è ora di 10 secondi durante l'irrigazione e min. 60 sec altrimenti\ndipendenza di request e util lib rimossa, sostituita da got",
+                "es": "El intervalo de sondeo de riego es ahora de 10 segundos durante el riego y min. 60 segundos de lo contrario\ndependencia de la solicitud y la lib de utilidad eliminada, reemplazada por got",
+                "pl": "Interwał sondowania nawadniania wynosi teraz 10 sekund podczas nawadniania i min. 60 sekund inaczej\nusunięta zależność żądania i biblioteki util, zastąpiona przez got",
+                "zh-cn": "灌溉轮询间隔现在是灌溉期间 10 秒和分钟。 60 秒，否则\n删除请求和 util lib 的依赖关系，替换为 got"
+            },
             "0.1.2": {
                 "en": "Updated installation instructions",
                 "de": "Aktualisierte Installationsanweisungen",
