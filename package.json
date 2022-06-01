@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@iobroker/adapter-core": "^2.5.1",
-    "@iobroker/adapter-react": "2.0.22",
+    "@iobroker/adapter-react": "2.1.0",
     "@material-ui/core": "^4.12.4",
     "got": "^11.8.2",
     "react": "^16.14.0",
