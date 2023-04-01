@@ -30,7 +30,7 @@
     "@alcalzone/release-script": "^2.2.1",
     "@babel/cli": "^7.21.0",
     "@babel/core": "^7.21.4",
-    "@iobroker/testing": "^2.6.0",
+    "@iobroker/testing": "^4.1.0",
     "@types/chai": "^4.3.3",
     "@types/chai-as-promised": "^7.1.5",
     "@types/gulp": "^4.0.10",
