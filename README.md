@@ -78,6 +78,9 @@ Write-Values
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+- React removed, it is not longer needed
+
 ### 0.2.1 (2023-06-06)
 - npm release script hazzle
 
