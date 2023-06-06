@@ -1,0 +1,21 @@
+{
+	"i18n": true,
+	"type": "panel",
+	"items": {
+		"Username": {
+			"type": "text",
+			"label": "Username",
+			"newLine": true
+		},
+		"Password": {
+			"type": "text",
+			"label": "Password",
+			"newLine": true
+		},
+		"RequestInterval": {
+			"type": "text",
+			"label": "RequestIntervall",
+			"newLine": true
+		}
+	}
+}

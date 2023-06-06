@@ -10,7 +10,7 @@ let themeName = Utils.getThemeName();
 
 function build() {
 	ReactDOM.render(
-		<MuiThemeProvider theme={theme(themeName)}>
+	<MuiThemeProvider theme={theme(themeName)}>
 			<App
 				adapterName="cloudrain"
 				onThemeChange={(_theme) => {

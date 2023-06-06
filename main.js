@@ -4,11 +4,11 @@
 * Created with @iobroker/create-adapter v2.0.1
 Adapter for the Cloudrain Smart Irrigation System See https://cloudrain.com/.
 */
-
 const utils = require("@iobroker/adapter-core");
-const got = require('got');
+const got  = require("got");
 const { resolve } = require("path");
 const { rejects } = require("assert");
+
 const { default: SelectInput } = require("@material-ui/core/Select/SelectInput");
 const shortestAllowedPollInterval = 60;
 const pollIntervalDuringIrrigation = 10;
@@ -58,6 +58,7 @@ class Cloudrain extends utils.Adapter {
         } else {
             this.log.warn("Unable to Connect to Cloudrain API. Make sure Username and Password are correct and https://api.cloudrain.com/v1/ is reachable from your Network.");
             this.log.warn("No further retries. Restart the adapter manually.");
+            
         }
     }
     
@@ -111,8 +112,8 @@ class Cloudrain extends utils.Adapter {
     debugLogConnectionState(){
         
         this.log.debug(`cloudRainTokenValid: ${this.getConnected()}` );
-        //this.log.debug(`cloudRainAccessToken: ${this.cloudRainAccessToken}`);
-        //this.log.debug(`cloudRainRefreshToken: ${this.cloudRainRefreshToken}`);
+        this.log.debug(`cloudRainAccessToken: ${this.cloudRainAccessToken}`);
+        this.log.debug(`cloudRainRefreshToken: ${this.cloudRainRefreshToken}`);
         this.log.debug(`cloudRainTokenExpireIn: ${this.cloudRainTokenExpireIn}`);
     }
     
@@ -152,7 +153,7 @@ class Cloudrain extends utils.Adapter {
         }        
         catch (error) {
             this.setConnected(false);
-            this.log.error("Get Cloudrain Token request failed. Check network connection.");
+            this.log.error(`Get Cloudrain Token request failed. Check network connection. ${error}`);
         }
     }
     async createOrUpdateCloudRainControllers(){
