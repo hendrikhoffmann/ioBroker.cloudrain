@@ -78,7 +78,7 @@ Write-Values
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 0.2.2 (2023-06-06)
 - React removed, it is not longer needed
 
 ### 0.2.1 (2023-06-06)
