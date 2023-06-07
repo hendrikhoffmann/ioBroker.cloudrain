@@ -79,6 +79,9 @@ Write-Values
 	### **WORK IN PROGRESS**
 -->
 ### **WORK IN PROGRESS**
+- more npm version hazzle
+
+### 0.2.3 (2023-06-06)
 - React removed, it is not longer needed
 
 ### 0.2.2 (2023-06-06)
