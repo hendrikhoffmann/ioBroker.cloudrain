@@ -78,7 +78,7 @@ Write-Values
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 0.2.5 (2023-06-07)
 - npm release
 
 ### 0.2.0 (2023-06-06)
