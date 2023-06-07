@@ -78,17 +78,8 @@ Write-Values
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### 0.2.4 (2023-06-07)
-- more npm version hazzle
-
-### 0.2.3 (2023-06-06)
-- React removed, it is not longer needed
-
-### 0.2.2 (2023-06-06)
-- React removed, it is not longer needed
-
-### 0.2.1 (2023-06-06)
-- npm release script hazzle
+### **WORK IN PROGRESS**
+- npm release
 
 ### 0.2.0 (2023-06-06)
 - fixed a bug where Admin Interface was not displayed if node.js Version >12
