@@ -45,7 +45,7 @@ jobs:
           os: ${{ matrix.os }}
           # Uncomment the following line if your adapter cannot be installed using 'npm ci'
           # install-command: 'npm install'
-          build: true
+          build: false
 
   # Deploys the final package to NPM
   deploy:
@@ -62,10 +62,10 @@ jobs:
     steps:
       - uses: ioBroker/testing-action-deploy@v1
         with:
-          node-version: '14.x'
+          node-version: '16.x'
           # Uncomment the following line if your adapter cannot be installed using 'npm ci'
           # install-command: 'npm install'
-          build: true
+          build: false
           npm-token: ${{ secrets.NPM_TOKEN }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -76,6 +76,6 @@ jobs:
           sentry-token: ${{ secrets.SENTRY_AUTH_TOKEN }}
           sentry-project: "iobroker-cloudrain"
           sentry-version-prefix: "iobroker.cloudrain"
-          sentry-sourcemap-paths: "admin/build/"
+          # sentry-sourcemap-paths: "admin/build/"
           # If your sentry project is linked to a GitHub repository, you can enable the following option
           # sentry-github-integration: true
