@@ -1,5 +1,6 @@
 {
-	"scratchy adapter settings": "scratchy的适配器设置",
-	"option1": "选项1",
-	"option2": "选项2"
+	"cloudrain adapter settings": "Adapter settings for cloudrain",
+	"Username": "Username",
+	"Password": "Password",
+	"RequestInterval": "Refresh Interval [s]"
 }

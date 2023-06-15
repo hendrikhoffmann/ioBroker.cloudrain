@@ -1,5 +1,6 @@
 {
-	"scratchy adapter settings": "Adapterinstellingen voor scratchy",
-	"option1": "Optie 1",
-	"option2": "Optie 2"
+	"cloudrain adapter settings": "Adapter settings for cloudrain",
+	"Username": "Username",
+	"Password": "Password",
+	"RequestInterval": "Refresh Interval [s]"
 }
