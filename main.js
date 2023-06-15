@@ -9,7 +9,6 @@ const got  = require("got");
 const { resolve } = require("path");
 const { rejects } = require("assert");
 
-const { default: SelectInput } = require("@material-ui/core/Select/SelectInput");
 const shortestAllowedPollInterval = 60;
 const pollIntervalDuringIrrigation = 10;
 
@@ -112,8 +111,8 @@ class Cloudrain extends utils.Adapter {
     debugLogConnectionState(){
         
         this.log.debug(`cloudRainTokenValid: ${this.getConnected()}` );
-        this.log.debug(`cloudRainAccessToken: ${this.cloudRainAccessToken}`);
-        this.log.debug(`cloudRainRefreshToken: ${this.cloudRainRefreshToken}`);
+//        this.log.debug(`cloudRainAccessToken: ${this.cloudRainAccessToken}`);
+//        this.log.debug(`cloudRainRefreshToken: ${this.cloudRainRefreshToken}`);
         this.log.debug(`cloudRainTokenExpireIn: ${this.cloudRainTokenExpireIn}`);
     }
     
