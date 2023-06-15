@@ -78,7 +78,7 @@ Write-Values
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 0.2.1 (2023-06-15)
 - fixed a bug where Admin Interface was not displayed if node.js Version >12
 
 ### 0.1.3 (2021-11-10)
