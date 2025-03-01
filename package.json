@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@iobroker/adapter-core": "^2.6.8",
-    "@iobroker/dev-server": "^0.6.0",
+    "@iobroker/dev-server": "^0.7.8",
     "got": "^11.0.0"
   },
   "devDependencies": {
